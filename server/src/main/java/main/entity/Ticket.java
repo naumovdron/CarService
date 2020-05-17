@@ -12,13 +12,15 @@ public class Ticket {
     private String description;
 
     @ManyToOne
-    @JoinColumn(name = "id")
+    @JoinColumn(name = "id",
+            insertable = false,
+            updatable = false)
     private Application application;
 
     @ManyToOne
     @JoinTable(name = "ticket_release",
-        joinColumns = @JoinColumn(name = "ticket_fk"),
-        inverseJoinColumns = @JoinColumn(name = "release_fk"))
+            joinColumns = @JoinColumn(name = "ticket_fk"),
+            inverseJoinColumns = @JoinColumn(name = "release_fk"))
     private Release release;
 
     private String status;
