@@ -8,25 +8,18 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
 public class AutoserviceServer {
-
-    private static final Logger log = LoggerFactory.getLogger(AutoserviceServer.class);
 
     public static void main(String[] args) {
         SpringApplication.run(AutoserviceServer.class, args);
     }
 
     @Bean
-    public CommandLineRunner test(ApplicationRepository repository) {
-        return args -> {
-            repository.save(new Application("FirstApp", "My first app"));
-            repository.save(new Application("SecondApp", "My second app"));
-
-            for (Application app : repository.findAll()) {
-                log.info("The application is: " + app.toString());
-            }
-        };
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
     }
 }
