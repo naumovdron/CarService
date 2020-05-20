@@ -13,8 +13,5 @@ public class CarServiceApplication {
         SpringApplication.run(CarServiceApplication.class, args);
     }
 
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
-    }
+
 }

@@ -36,7 +36,7 @@ public class WorkController {
     public ResponseEntity<WorkDto> saveWork(@RequestBody @Valid WorkDto workDto) {
         try {
             workService.save(workFromDto(workDto));
-            workDto.setId(work.getId());
+            //workDto.setId(work.getId());
             return new ResponseEntity<>(workDto, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
@@ -59,10 +59,8 @@ public class WorkController {
     public ResponseEntity<WorkDto> updateWork(@RequestBody @Valid WorkDto workDto, @PathVariable("id") long id) {
         try {
             Work work = workFromDto(workDto);
-            workService.delete(id);
-            work.setId(id);
-            workDto.setId(work.getId());
-            workService.save(work);
+            workService.update(work, id);
+            workDto.setId(id);
             return new ResponseEntity<>(workDto, HttpStatus.OK);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

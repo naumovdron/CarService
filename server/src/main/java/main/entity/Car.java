@@ -9,7 +9,8 @@ import javax.persistence.*;
 @Data
 public class Car {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="carGenerator")
+    @SequenceGenerator(name="carGenerator", sequenceName="carSeq")
     private long id;
 
     @Column(name = "num", length = 20, nullable = false)

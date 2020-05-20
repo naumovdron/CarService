@@ -15,9 +15,9 @@ import java.util.stream.Collectors;
 @Table(name = "users")
 @Data
 public class User implements UserDetails {
-
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO, generator="serviceGenerator")
+    @SequenceGenerator(name="serviceGenerator", sequenceName="serviceSeq")
     private long id;
 
     @Column(name = "user_name", nullable = false, unique = true)
@@ -28,10 +28,6 @@ public class User implements UserDetails {
 
     @ElementCollection(fetch = FetchType.EAGER)
     private List<String> roles = new ArrayList<>();
-
-    //@ManyToMany(fetch = FetchType.EAGER)
-    //@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
-    //private List<String> roles;
 
     public User() {
     }
@@ -44,10 +40,6 @@ public class User implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        //List<String> rolesNames = new ArrayList<>();
-        //roles.forEach(role -> {
-        //    rolesNames.add(role.getName());
-        //});
         return roles.stream().map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
 

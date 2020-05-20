@@ -20,30 +20,33 @@ public class ServiceController {
 
     @PostMapping("")
     public ResponseEntity<Service> saveService(@RequestBody @Valid Service service) {
-        if (service == null) {
+        try {
+            serviceService.save(service);
+            return new ResponseEntity<>(service, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        serviceService.save(service);
-        return new ResponseEntity<>(service, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Service> deleteService(@PathVariable("id") long id) {
-        Service service = serviceService.get(id);
-        if (service == null) {
+        try {
+            Service service = serviceService.get(id);
+            serviceService.delete(id);
+            return new ResponseEntity<>(service, HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        serviceService.delete(id);
-        return new ResponseEntity<>(service, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Service> updateService(@RequestBody @Valid Service service) {
-        if (service == null) {
+    public ResponseEntity<Service> updateService(@RequestBody @Valid Service service,  @PathVariable("id") long id) {
+        try {
+            serviceService.update(service, id);
+            return new ResponseEntity<>(service, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        serviceService.save(service);
-        return new ResponseEntity<>(service, HttpStatus.OK);
     }
 
     @GetMapping("")

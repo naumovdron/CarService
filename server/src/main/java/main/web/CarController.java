@@ -20,30 +20,33 @@ public class CarController {
 
     @PostMapping("")
     public ResponseEntity<Car> saveCar(@RequestBody @Valid Car car) {
-        if (car == null) {
+        try {
+            carService.save(car);
+            return new ResponseEntity<>(car, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        carService.save(car);
-        return new ResponseEntity<>(car, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Car> deleteCar(@PathVariable("id") long id) {
-        Car car = carService.get(id);
-        if (car == null) {
+        try {
+            Car car = carService.get(id);
+            carService.delete(id);
+            return new ResponseEntity<>(car, HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        carService.delete(id);
-        return new ResponseEntity<>(car, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Car> updateCar(@RequestBody @Valid Car car) {
-        if (car == null) {
+    public ResponseEntity<Car> updateCar(@RequestBody @Valid Car car, @PathVariable("id") long id) {
+        try {
+            carService.update(car, id);
+            return new ResponseEntity<>(car, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        carService.save(car);
-        return new ResponseEntity<>(car, HttpStatus.OK);
     }
 
     @GetMapping("")

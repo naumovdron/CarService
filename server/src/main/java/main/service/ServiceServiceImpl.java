@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @org.springframework.stereotype.Service
 public class ServiceServiceImpl implements ServiceService {
@@ -21,9 +20,15 @@ public class ServiceServiceImpl implements ServiceService {
 
     @Override
     public Service get(long id) {
-        Optional<Service> optionalService = serviceRepository.findById(id);
-        if (optionalService.isPresent()) {
-            return optionalService.get();
+        return serviceRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Service not found"));
+    }
+
+    @Override
+    public void update(Service service, long id) {
+        if (serviceRepository.findById(id).isPresent()) {
+            service.setId(id);
+            serviceRepository.save(service);
         } else {
             throw new EntityNotFoundException("Service not found");
         }

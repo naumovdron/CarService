@@ -1,13 +1,14 @@
 package main.web;
 
+import main.dto.AuthRequest;
+import main.dto.RegistrationRequest;
 import main.entity.User;
 import main.security.jwt.JwtTokenProvider;
 import main.service.CustomUserDetailsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,6 @@ import java.util.Map;
 
 @Controller
 public class SecurityController {
-
-    //@Autowired
-    //private AuthenticationManager authenticationManager;
-
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
@@ -36,7 +33,6 @@ public class SecurityController {
         try {
             String username = request.getUserName();
             String password = request.getPassword();
-            //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, request.getPassword()));
             User user = userDetailsService.getByUsername(username);
             if (!passwordEncoder.matches(password, user.getPassword())) {
                 throw new BadCredentialsException("Invalid username or password");
@@ -49,7 +45,7 @@ public class SecurityController {
             response.put("token", token);
 
             return ResponseEntity.ok(response);
-        } catch (AuthenticationException e) {
+        } catch (UsernameNotFoundException e) {
             throw new BadCredentialsException("Invalid username or password");
         }
     }
@@ -63,9 +59,8 @@ public class SecurityController {
             try {
                 userDetailsService.getByUsername(username);
                 throw new BadCredentialsException("Invalid username or password");
-            } catch (AuthenticationException e) {
+            } catch (UsernameNotFoundException e) {
                 User user = userDetailsService.register(new User(username, passwordEncoder.encode(password), null));
-                //authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
                 String token = jwtTokenProvider.createToken(username, user.getRoles());
                 Map<Object, Object> response = new HashMap<>();
                 response.put("userName", username);

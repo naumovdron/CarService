@@ -10,7 +10,7 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -25,35 +25,48 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
         return super.authenticationManagerBean();
     }
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+    }
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.httpBasic().disable()
-                .csrf().disable()
-                .formLogin().disable()
-                .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .csrf().disable()
+                    .formLogin().disable()
+                    .sessionManagement()
+                    .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
-                .authorizeRequests()
-                .antMatchers("/login").permitAll()
-                .antMatchers("/registration").permitAll()
-                .antMatchers(HttpMethod.GET, "/car/{id}").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/car/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/car").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/car").permitAll()
-                .antMatchers(HttpMethod.GET, "/master/{id}").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/master/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/master").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/master").permitAll()
-                .antMatchers(HttpMethod.GET, "/service/{id}").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/service/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/service").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/service").permitAll()
-                .antMatchers(HttpMethod.GET, "/work/{id}").hasRole("USER")
-                .antMatchers(HttpMethod.PUT, "/work/{id}").hasRole("ADMIN")
-                .antMatchers(HttpMethod.POST, "/work").hasRole("ADMIN")
-                .antMatchers(HttpMethod.GET, "/work").permitAll()
-                .anyRequest().authenticated()
+                    .authorizeRequests()
+                    .antMatchers("/login").permitAll()
+                    .antMatchers("/registration").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.GET, "/car/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.PUT, "/car/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.DELETE, "/car/{id}").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST, "/car").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/car").hasRole("USER")
+
+                    .antMatchers(HttpMethod.GET, "/master/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.PUT, "/master/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.DELETE, "/master/{id}").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST, "/master").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/master").hasRole("USER")
+
+                    .antMatchers(HttpMethod.GET, "/service/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.PUT, "/service/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.DELETE, "/service/{id}").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST, "/service").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/service").hasRole("USER")
+
+                    .antMatchers(HttpMethod.GET, "/work/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.PUT, "/work/{id}").hasRole("USER")
+                    .antMatchers(HttpMethod.DELETE, "/work/{id}").hasRole("ADMIN")
+                    .antMatchers(HttpMethod.POST, "/work").hasRole("USER")
+                    .antMatchers(HttpMethod.GET, "/work").hasRole("USER")
+
+                    .anyRequest().authenticated()
                 .and()
-                .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+                    .apply(new JwtSecurityConfigurer(jwtTokenProvider));
     }
 }

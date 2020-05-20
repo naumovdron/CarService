@@ -7,6 +7,7 @@ import java.util.List;
 public interface ServiceService {
     List<Service> getAll();
     Service get(long id);
+    void update(Service service, long id);
     void save(Service service);
     void delete(long id);
 }

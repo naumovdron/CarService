@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarServiceImpl implements CarService {
@@ -22,9 +21,15 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public Car get(long id) {
-        Optional<Car> optionalCar = carRepository.findById(id);
-        if (optionalCar.isPresent()) {
-            return optionalCar.get();
+        return carRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Car not found"));
+    }
+
+    @Override
+    public void update(Car car, long id) {
+        if (carRepository.findById(id).isPresent()) {
+            car.setId(id);
+            carRepository.save(car);
         } else {
             throw new EntityNotFoundException("Car not found");
         }

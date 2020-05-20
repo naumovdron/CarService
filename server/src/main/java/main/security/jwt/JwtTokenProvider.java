@@ -1,7 +1,6 @@
 package main.security.jwt;
 
 import io.jsonwebtoken.*;
-import main.entity.Role;
 import main.exception.InvalidJwtAuthenticationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,7 +9,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -29,20 +29,13 @@ public class JwtTokenProvider {
 
     private String secretKey;
 
-    //@Bean
-    //public BCryptPasswordEncoder passwordEncoder() {
-    //    return new BCryptPasswordEncoder();
-    //}
-
     @PostConstruct
     private void init() {
         secretKey = Base64.getEncoder().encodeToString(jwtProperties.getSecretKey().getBytes());
     }
 
-    //public String createToken(String userName, List<Role> roles) {
     public String createToken(String userName, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(userName);
-        //claims.put("roles", getRolesNames(roles));
         claims.put("roles", roles);
 
         Date now = new Date();
@@ -80,13 +73,5 @@ public class JwtTokenProvider {
     public Authentication getAuthentication(String token) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(getUserName(token));
         return new UsernamePasswordAuthenticationToken(userDetails, "", userDetails.getAuthorities());
-    }
-
-    private List<String> getRolesNames(List<Role> roles) {
-        List<String> rolesNames = new ArrayList<>();
-        roles.forEach(role -> {
-            rolesNames.add(role.getName());
-        });
-        return rolesNames;
     }
 }

@@ -20,30 +20,33 @@ public class MasterController {
 
     @PostMapping("")
     public ResponseEntity<Master> saveMaster(@RequestBody @Valid Master master) {
-        if (master == null) {
+        try {
+            masterService.save(master);
+            return new ResponseEntity<>(master, HttpStatus.CREATED);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        masterService.save(master);
-        return new ResponseEntity<>(master, HttpStatus.CREATED);
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Master> deleteMaster(@PathVariable("id") long id) {
-        Master master = masterService.get(id);
-        if (master == null) {
+        try {
+            Master master = masterService.get(id);
+            masterService.delete(id);
+            return new ResponseEntity<>(master, HttpStatus.NO_CONTENT);
+        } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        masterService.delete(id);
-        return new ResponseEntity<>(master, HttpStatus.NO_CONTENT);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Master> updateMaster(@RequestBody @Valid Master master) {
-        if (master == null) {
+    public ResponseEntity<Master> updateMaster(@RequestBody @Valid Master master, @PathVariable("id") long id) {
+        try {
+            masterService.update(master, id);
+            return new ResponseEntity<>(master, HttpStatus.OK);
+        } catch (IllegalArgumentException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        masterService.save(master);
-        return new ResponseEntity<>(master, HttpStatus.OK);
     }
 
     @GetMapping("")

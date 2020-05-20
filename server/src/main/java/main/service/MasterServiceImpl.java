@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MasterServiceImpl implements MasterService {
@@ -22,9 +21,15 @@ public class MasterServiceImpl implements MasterService {
 
     @Override
     public Master get(long id) {
-        Optional<Master> optionalMaster = masterRepository.findById(id);
-        if (optionalMaster.isPresent()) {
-            return optionalMaster.get();
+        return masterRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Master not found"));
+    }
+
+    @Override
+    public void update(Master master, long id) {
+        if (masterRepository.findById(id).isPresent()) {
+            master.setId(id);
+            masterRepository.save(master);
         } else {
             throw new EntityNotFoundException("Master not found");
         }
