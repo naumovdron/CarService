@@ -5,7 +5,8 @@ import main.entity.Car;
 import java.util.List;
 
 public interface CarService {
-    List<Car> listCars();
-    Car findCar(int id);
-    Car addCar(Car car);
+    List<Car> getAll();
+    Car get(long id);
+    void save(Car car);
+    void delete(long id);
 }

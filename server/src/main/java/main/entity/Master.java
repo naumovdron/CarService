@@ -1,14 +1,17 @@
 package main.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "masters")
+@Data
 public class Master {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -18,29 +21,5 @@ public class Master {
 
     public Master(String name) {
         this.name = name;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    @Override
-    public String toString() {
-        return "Master{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                '}';
     }
 }

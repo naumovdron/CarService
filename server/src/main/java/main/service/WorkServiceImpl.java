@@ -1,11 +1,12 @@
 package main.service;
 
 import main.entity.Work;
-import main.exception.WorkNotFoundException;
 import main.repository.WorkRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,22 +17,23 @@ public class WorkServiceImpl implements WorkService {
     WorkRepository workRepository;
 
     @Override
-    public List<Work> listWorks() {
+    public List<Work> getAll() {
         return (List<Work>) workRepository.findAll();
     }
 
     @Override
-    public Work findWork(int id) {
-        Optional<Work> optionalWork = workRepository.findById(id);
-        if (optionalWork.isPresent()) {
-            return optionalWork.get();
-        } else {
-            throw new WorkNotFoundException("Work not found");
-        }
+    public Work get(long id) {
+        return workRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("Work not found"));
     }
 
     @Override
-    public Work addWork(Work work) {
-        return workRepository.save(work);
+    public void save(Work work) {
+        workRepository.save(work);
+    }
+
+    @Override
+    public void delete(long id) {
+        workRepository.deleteById(id);
     }
 }

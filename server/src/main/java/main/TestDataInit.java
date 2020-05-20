@@ -1,21 +1,23 @@
 package main;
 
-import main.entity.Application;
+import main.entity.Car;
 import main.entity.User;
-import main.repository.ApplicationRepository;
+import main.repository.CarRepository;
 import main.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 @Component
 public class TestDataInit implements CommandLineRunner {
 
     @Autowired
-    ApplicationRepository applicationRepository;
+    CarRepository carRepository;
 
     @Autowired
     UserRepository userRepository;
@@ -25,10 +27,13 @@ public class TestDataInit implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        applicationRepository.save(new Application("FirstApp", "My first app"));
-        applicationRepository.save(new Application("SecondApp", "My second app"));
+        //carRepository.save(new Car("12abc3", "Kia", "red", true));
+        //carRepository.save(new Car("45def6", "Lada", "brown", false));
 
-        userRepository.save(new User("user", passwordEncoder.encode("pwd"), Collections.singletonList("ROLE_USER")));
-        userRepository.save(new User("admin", passwordEncoder.encode("apwd"), Collections.singletonList("ROLE_ADMIN")));
+//        List<String> roles = new ArrayList<>();
+//        roles.add("ROLE_USER");
+//        userRepository.save(new User("user", passwordEncoder.encode("pwd"), roles));
+//        roles.add("ROLE_ADMIN");
+//        userRepository.save(new User("admin", passwordEncoder.encode("admin"), roles));
     }
 }

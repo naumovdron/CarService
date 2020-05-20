@@ -1,10 +1,10 @@
 package main.service;
 
 import main.entity.Service;
-import main.exception.ServiceNotFoundException;
 import main.repository.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,22 +15,27 @@ public class ServiceServiceImpl implements ServiceService {
     ServiceRepository serviceRepository;
 
     @Override
-    public List<Service> listServices() {
+    public List<Service> getAll() {
         return (List<Service>) serviceRepository.findAll();
     }
 
     @Override
-    public Service findService(int id) {
+    public Service get(long id) {
         Optional<Service> optionalService = serviceRepository.findById(id);
         if (optionalService.isPresent()) {
             return optionalService.get();
         } else {
-            throw new ServiceNotFoundException("Service not found");
+            throw new EntityNotFoundException("Service not found");
         }
     }
 
     @Override
-    public Service addService(Service service) {
-        return serviceRepository.save(service);
+    public void save(Service service) {
+        serviceRepository.save(service);
+    }
+
+    @Override
+    public void delete(long id) {
+        serviceRepository.deleteById(id);
     }
 }

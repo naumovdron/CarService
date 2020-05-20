@@ -1,11 +1,11 @@
 package main.service;
 
 import main.entity.Car;
-import main.exception.CarNotFoundException;
 import main.repository.CarRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,22 +16,27 @@ public class CarServiceImpl implements CarService {
     private CarRepository carRepository;
 
     @Override
-    public List<Car> listCars() {
+    public List<Car> getAll() {
         return (List<Car>) carRepository.findAll();
     }
 
     @Override
-    public Car findCar(int id) {
+    public Car get(long id) {
         Optional<Car> optionalCar = carRepository.findById(id);
         if (optionalCar.isPresent()) {
             return optionalCar.get();
         } else {
-            throw new CarNotFoundException("Car not found");
+            throw new EntityNotFoundException("Car not found");
         }
     }
 
     @Override
-    public Car addCar(Car car) {
-        return carRepository.save(car);
+    public void save(Car car) {
+        carRepository.save(car);
+    }
+
+    @Override
+    public void delete(long id) {
+        carRepository.deleteById(id);
     }
 }

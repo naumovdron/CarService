@@ -5,7 +5,8 @@ import main.entity.Work;
 import java.util.List;
 
 public interface WorkService {
-    List<Work> listWorks();
-    Work findWork(int id);
-    Work addWork(Work work);
+    List<Work> getAll();
+    Work get(long id);
+    void save(Work work);
+    void delete(long id);
 }

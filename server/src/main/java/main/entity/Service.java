@@ -1,14 +1,17 @@
 package main.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "services")
+@Data
 public class Service {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    private int id;
+    private long id;
 
     @Column(name = "name", length = 50, nullable = false)
     private String name;
@@ -26,47 +29,5 @@ public class Service {
         this.name = name;
         this.costOur = costOur;
         this.costForeign = costForeign;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public long getCostOur() {
-        return costOur;
-    }
-
-    public void setCostOur(long costOur) {
-        this.costOur = costOur;
-    }
-
-    public long getCostForeign() {
-        return costForeign;
-    }
-
-    public void setCostForeign(long costForeign) {
-        this.costForeign = costForeign;
-    }
-
-    @Override
-    public String toString() {
-        return "Service{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", costOur=" + costOur +
-                ", costForeign=" + costForeign +
-                '}';
     }
 }

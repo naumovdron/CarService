@@ -5,7 +5,8 @@ import main.entity.Service;
 import java.util.List;
 
 public interface ServiceService {
-    List<Service> listServices();
-    Service findService(int id);
-    Service addService(Service service);
+    List<Service> getAll();
+    Service get(long id);
+    void save(Service service);
+    void delete(long id);
 }

@@ -3,5 +3,5 @@ package main.repository;
 import main.entity.Car;
 import org.springframework.data.repository.CrudRepository;
 
-public interface CarRepository extends CrudRepository<Car, Integer> {
+public interface CarRepository extends CrudRepository<Car, Long> {
 }
