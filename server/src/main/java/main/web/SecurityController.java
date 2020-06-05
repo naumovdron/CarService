@@ -35,7 +35,7 @@ public class SecurityController {
             String password = request.getPassword();
             User user = userDetailsService.getByUsername(username);
             if (!passwordEncoder.matches(password, user.getPassword())) {
-                throw new BadCredentialsException("Invalid username or password");
+                return ResponseEntity.status(403).build();
             }
 
             String token = jwtTokenProvider.createToken(username, user.getRoles());
@@ -46,7 +46,7 @@ public class SecurityController {
 
             return ResponseEntity.ok(response);
         } catch (UsernameNotFoundException e) {
-            throw new BadCredentialsException("Invalid username or password");
+            return ResponseEntity.status(403).build();
         }
     }
 
@@ -58,7 +58,7 @@ public class SecurityController {
         if (password.equals(passwordConfirm)) {
             try {
                 userDetailsService.getByUsername(username);
-                throw new BadCredentialsException("Invalid username or password");
+                return ResponseEntity.status(403).build();
             } catch (UsernameNotFoundException e) {
                 User user = userDetailsService.register(new User(username, passwordEncoder.encode(password), null));
                 String token = jwtTokenProvider.createToken(username, user.getRoles());
@@ -68,7 +68,7 @@ public class SecurityController {
                 return ResponseEntity.ok(response);
             }
         } else {
-            throw new BadCredentialsException("Password mismatch");
+            return ResponseEntity.status(403).build();
         }
     }
 }

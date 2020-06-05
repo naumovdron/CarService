@@ -9,7 +9,7 @@ import javax.persistence.*;
 @Data
 public class Master {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="masterGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="masterGenerator")
     @SequenceGenerator(name="masterGenerator", sequenceName="masterSeq")
     private long id;
 

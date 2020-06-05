@@ -10,7 +10,7 @@ import java.util.Date;
 @Data
 public class Work {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO, generator="workGenerator")
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="workGenerator")
     @SequenceGenerator(name="workGenerator", sequenceName="workSeq")
     private long id;
 

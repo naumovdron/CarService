@@ -10,13 +10,12 @@ def login():
         global token
         json_params = {"userName": username.get(), "password": password.get()}
         try:
-            response = session.post(url + "/login", json=json_params, timeout=0.1)
+            response = session.post(url + "/login", json=json_params, timeout=timeout)
             if response.status_code == 403:
                 error_label.configure(text="access denied")
             elif response.status_code == 500:
                 error_label.configure(text="internal server problem")
             else:
-                print(response.json())
                 token = response.json()['token']
                 root.destroy()
                 main()
@@ -87,7 +86,7 @@ def main():
                 variables.append(tk.BooleanVar())
                 widgets.append(tk.Checkbutton(edit_entity_tabs[i], text=j, variable=variables[len(variables) - 1]))
                 widgets[len(widgets) - 1].grid(row=row, column=0, columnspan=2)
-            if j == "date":
+            elif j == "date":
                 widgets.append(tk.Label(edit_entity_tabs[i], text=j + ":"))
                 widgets[len(widgets) - 1].grid(row=row, column=0)
                 variables.append(DateEntry(edit_entity_tabs[i], width=12, date_pattern="yyyy-mm-dd"))
@@ -107,7 +106,7 @@ def main():
                     variables.append(tk.BooleanVar())
                     widgets.append(tk.Checkbutton(add_entity_tabs[i], text=j, variable=variables[len(variables) - 1]))
                     widgets[len(widgets) - 1].grid(row=row, column=0, columnspan=2)
-                if j == "date":
+                elif j == "date":
                     widgets.append(tk.Label(add_entity_tabs[i], text=j + ":"))
                     widgets[len(widgets) - 1].grid(row=row, column=0)
                     variables.append(DateEntry(add_entity_tabs[i], width=12, date_pattern="yyyy-mm-dd"))
@@ -162,7 +161,7 @@ def main():
     for i in range(len(entities)):
         entity_tabs.append(tk.Frame(entities_notebook, height=170, width=120))
         entity_tables.append(ttk.Treeview(entity_tabs[i], columns=entity_params[i], show='headings'))
-        entity_table_scrolls.append(ttk.Scrollbar(entity_tabs[i], orient="vertical", command=entity_tables[i].yview))
+        entity_table_scrolls.append(ttk.Scrollbar(entity_tabs[i], command=entity_tables[i].yview))
         entity_table_scrolls[i].grid(column=1, row=0)
         entity_tables[i].configure(yscrollcommand=entity_table_scrolls[i].set)
         for column in entity_params[i]:
@@ -185,64 +184,70 @@ def main():
         try:
             if action == 0:
                 if show_all.get():
-                    response = session.get(url + "/" + entities[entity].lower(), timeout=0.1, headers=headers)
+                    response = session.get(url + "/" + entities[entity].lower(), timeout=timeout, headers=headers)
                 else:
                     response = session.get(url + "/" + entities[entity].lower() + "/" + find_id_entry.get(),
-                                           timeout=0.1, headers=headers)
+                                           timeout=timeout, headers=headers)
             elif action == 1:
                 response = session.delete(url + "/" + entities[entity].lower() + "/" + find_id_entry.get(),
-                                          timeout=0.1, headers=headers)
+                                          timeout=timeout, headers=headers)
             elif action == 2:
                 if entity == 0:
                     json_params["date"] = edit_entity_vars[0][1].get()
                     json_params["masterId"] = edit_entity_vars[0][2].get()
                     json_params["carId"] = edit_entity_vars[0][3].get()
                     json_params["serviceId"] = edit_entity_vars[0][4].get()
-                if entity == 1:
+                elif entity == 1:
                     json_params["num"] = edit_entity_vars[1][1].get()
                     json_params["color"] = edit_entity_vars[1][2].get()
                     json_params["mark"] = edit_entity_vars[1][3].get()
                     json_params["foreign"] = edit_entity_vars[1][4].get()
-                if entity == 2:
+                elif entity == 2:
                     json_params["name"] = edit_entity_vars[2][1].get()
                     json_params["costOur"] = edit_entity_vars[2][2].get()
                     json_params["costForeign"] = edit_entity_vars[2][3].get()
                 else:
                     json_params["name"] = edit_entity_vars[3][1].get()
-                print(json_params)
                 response = session.put(url + "/" + entities[entity].lower() + "/" + edit_entity_vars[entity][0].get(),
-                                       timeout=0.1, headers=headers, json=json_params)
+                                       timeout=timeout, headers=headers, json=json_params)
             else:
                 if entity == 0:
                     json_params["date"] = add_entity_vars[0][0].get()
                     json_params["masterId"] = add_entity_vars[0][1].get()
                     json_params["carId"] = add_entity_vars[0][2].get()
-                    json_params["serviceId"] = edit_entity_vars[0][3].get()
-                if entity == 1:
+                    json_params["serviceId"] = add_entity_vars[0][3].get()
+                elif entity == 1:
                     json_params["num"] = add_entity_vars[1][0].get()
                     json_params["color"] = add_entity_vars[1][1].get()
                     json_params["mark"] = add_entity_vars[1][2].get()
                     json_params["foreign"] = add_entity_vars[1][3].get()
-                if entity == 2:
+                elif entity == 2:
                     json_params["name"] = add_entity_vars[2][0].get()
                     json_params["costOur"] = add_entity_vars[2][1].get()
                     json_params["costForeign"] = add_entity_vars[2][2].get()
                 else:
                     json_params["name"] = add_entity_vars[3][0].get()
-                print(json_params)
                 response = session.post(url + "/" + entities[entity].lower(),
-                                        timeout=0.1, headers=headers, json=json_params)
+                                        timeout=timeout, headers=headers, json=json_params)
             if response.status_code == 403:
                 error_label["text"] = "access denied"
             elif response.status_code == 500:
                 error_label["text"] = "internal server problem"
             elif response.status_code == 404:
                 error_label["text"] = "not found"
+            elif response.status_code == 400:
+                error_label["text"] = "bad request"
             else:
-                print(response)
-                print(response.json())
-            # for i in response.json():
-            #     entities_notebook.insert("", "end", text=i["id"], values=(i["date"]))
+                if action == 0:
+                    entity_tables[entity].delete(*entity_tables[entity].get_children())
+                    if show_all.get():
+                        for i in response.json():
+                            entity_tables[entity].insert("", "end", values=tuple(i.values()))
+                    else:
+                        entity_tables[entity].insert("", "end", values=tuple(response.json().values()))
+                elif action in [2, 3]:
+                    entity_tables[entity].delete(*entity_tables[entity].get_children())
+                    entity_tables[entity].insert("", "end", values=tuple(response.json().values()))
         except requests.Timeout:
             error_label.configure(text="server does not response")
         except requests.ConnectionError:
@@ -253,8 +258,7 @@ def main():
 
 
 url = "http://localhost:8080"
-
+timeout = 0.5
 session = requests.Session()
 token = ""
-# login()
-main()
+login()

@@ -35,8 +35,9 @@ public class WorkController {
     @PostMapping("")
     public ResponseEntity<WorkDto> saveWork(@RequestBody @Valid WorkDto workDto) {
         try {
-            workService.save(workFromDto(workDto));
-            //workDto.setId(work.getId());
+            Work work = workFromDto(workDto);
+            workService.save(work);
+            workDto.setId(work.getId());
             return new ResponseEntity<>(workDto, HttpStatus.CREATED);
         } catch (EntityNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
