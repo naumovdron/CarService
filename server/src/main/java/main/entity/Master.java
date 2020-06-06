@@ -9,8 +9,7 @@ import javax.persistence.*;
 @Data
 public class Master {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="masterGenerator")
-    @SequenceGenerator(name="masterGenerator", sequenceName="masterSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "name", length = 50, nullable = false)

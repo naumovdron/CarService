@@ -18,7 +18,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Controller
-public class SecurityController {
+public class SecurityController extends JwtTokenProvider {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 

@@ -10,8 +10,7 @@ import java.util.Date;
 @Data
 public class Work {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY, generator="workGenerator")
-    @SequenceGenerator(name="workGenerator", sequenceName="workSeq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Column(name = "date_work", nullable = false)

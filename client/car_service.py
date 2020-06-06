@@ -135,10 +135,10 @@ def main():
     show_all_checkbox.grid(row=1, column=0, columnspan=2)
 
     remove_tab = tk.Frame(actions_notebook, height=170, width=120)
-    edit_id_label = tk.Label(remove_tab, text="Id:")
-    edit_id_label.grid(column=1, row=0, padx=5, pady=5)
-    edit_id_entry = tk.Entry(remove_tab, width=15)
-    edit_id_entry.grid(column=2, row=0)
+    remove_id_label = tk.Label(remove_tab, text="Id:")
+    remove_id_label.grid(column=1, row=0, padx=5, pady=5)
+    remove_id_entry = tk.Entry(remove_tab, width=15)
+    remove_id_entry.grid(column=2, row=0)
 
     actions_notebook.add(find_tab, text="Find")
     actions_notebook.add(remove_tab, text="Remove")
@@ -189,7 +189,7 @@ def main():
                     response = session.get(url + "/" + entities[entity].lower() + "/" + find_id_entry.get(),
                                            timeout=timeout, headers=headers)
             elif action == 1:
-                response = session.delete(url + "/" + entities[entity].lower() + "/" + find_id_entry.get(),
+                response = session.delete(url + "/" + entities[entity].lower() + "/" + remove_id_entry.get(),
                                           timeout=timeout, headers=headers)
             elif action == 2:
                 if entity == 0:
@@ -238,15 +238,14 @@ def main():
             elif response.status_code == 400:
                 error_label["text"] = "bad request"
             else:
+                entity_tables[entity].delete(*entity_tables[entity].get_children())
                 if action == 0:
-                    entity_tables[entity].delete(*entity_tables[entity].get_children())
                     if show_all.get():
                         for i in response.json():
                             entity_tables[entity].insert("", "end", values=tuple(i.values()))
                     else:
                         entity_tables[entity].insert("", "end", values=tuple(response.json().values()))
                 elif action in [2, 3]:
-                    entity_tables[entity].delete(*entity_tables[entity].get_children())
                     entity_tables[entity].insert("", "end", values=tuple(response.json().values()))
         except requests.Timeout:
             error_label.configure(text="server does not response")
