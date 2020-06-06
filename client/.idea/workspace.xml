@@ -22,23 +22,17 @@
     <list default="true" id="e1e9301d-2927-4874-9051-70defcaa365c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/car_service.py" beforeDir="false" afterPath="$PROJECT_DIR$/car_service.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../server/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/CarServiceApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/CarServiceApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/entity/Car.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/entity/Car.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/entity/Master.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/entity/Master.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/entity/Service.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/entity/Service.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/entity/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/entity/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/entity/Work.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/entity/Work.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/security/SpringSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/security/SpringSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtAuthEntryPoint.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtAuthEntryPoint.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtFilter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtProperties.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtProperties.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/web/SecurityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/web/SecurityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/CarServiceApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/CarServiceApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/entity/Car.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/entity/Car.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/entity/Master.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/entity/Master.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/entity/Service.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/entity/Service.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/entity/User.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/entity/User.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/entity/Work.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/entity/Work.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtSecurityConfigurer.java" beforeDir="false" afterPath="$PROJECT_DIR$/../server/src/main/java/main/security/jwt/JwtSecurityConfigurer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/target/classes/META-INF/spring-configuration-metadata.json" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/META-INF/spring-configuration-metadata.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/security/SpringSecurityConfig.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/security/SpringSecurityConfig.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtAuthEntryPoint.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtAuthEntryPoint.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtFilter.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtFilter.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtProperties.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtProperties.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/web/SecurityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/web/SecurityController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtSecurityConfigurer.class" beforeDir="false" afterPath="$PROJECT_DIR$/../server/target/classes/main/security/jwt/JwtSecurityConfigurer.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -147,22 +141,26 @@
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state x="739" y="322" key="FileChooserDialogImpl/-1920.113.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1590235428270" />
-    <state width="936" height="198" key="GridCell.Tab.0.bottom" timestamp="1591440703880">
+    <state width="936" height="196" key="GridCell.Tab.0.bottom" timestamp="1591482370807">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="936" height="198" key="GridCell.Tab.0.bottom/-1920.113.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1591440703880" />
-    <state width="936" height="198" key="GridCell.Tab.0.center" timestamp="1591440703880">
+    <state width="936" height="196" key="GridCell.Tab.0.bottom/0.0.1920.1160@0.0.1920.1160" timestamp="1591482370807" />
+    <state width="936" height="196" key="GridCell.Tab.0.center" timestamp="1591482370807">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="936" height="198" key="GridCell.Tab.0.center/-1920.113.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1591440703880" />
-    <state width="936" height="198" key="GridCell.Tab.0.left" timestamp="1591440703880">
+    <state width="936" height="196" key="GridCell.Tab.0.center/0.0.1920.1160@0.0.1920.1160" timestamp="1591482370807" />
+    <state width="936" height="196" key="GridCell.Tab.0.left" timestamp="1591482370807">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="936" height="198" key="GridCell.Tab.0.left/-1920.113.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1591440703880" />
-    <state width="936" height="198" key="GridCell.Tab.0.right" timestamp="1591440703880">
+    <state width="936" height="196" key="GridCell.Tab.0.left/0.0.1920.1160@0.0.1920.1160" timestamp="1591482370807" />
+    <state width="936" height="196" key="GridCell.Tab.0.right" timestamp="1591482370807">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>
     <state width="936" height="198" key="GridCell.Tab.0.right/-1920.113.1920.1040/0.0.1920.1160@0.0.1920.1160" timestamp="1591440703880" />
+    <state width="936" height="196" key="GridCell.Tab.0.right/0.0.1920.1160@0.0.1920.1160" timestamp="1591482370807" />
     <state width="1899" height="396" key="GridCell.Tab.1.bottom" timestamp="1590401788525">
       <screen x="0" y="0" width="1920" height="1160" />
     </state>

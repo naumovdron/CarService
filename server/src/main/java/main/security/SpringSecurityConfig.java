@@ -1,5 +1,6 @@
 package main.security;
 
+import main.security.jwt.JwtAuthEntryPoint;
 import main.security.jwt.JwtSecurityConfigurer;
 import main.security.jwt.JwtTokenProvider;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
+
+    @Autowired
+    private JwtAuthEntryPoint jwtAuthEntryPoint;
 
     @Bean
     @Override
@@ -67,6 +71,6 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
                     .anyRequest().authenticated()
                 .and()
-                    .apply(new JwtSecurityConfigurer(jwtTokenProvider));
+                    .apply(new JwtSecurityConfigurer(jwtTokenProvider, jwtAuthEntryPoint));
     }
 }

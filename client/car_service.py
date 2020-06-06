@@ -237,6 +237,8 @@ def main():
                 error_label["text"] = "not found"
             elif response.status_code == 400:
                 error_label["text"] = "bad request"
+            elif response.status_code == 401:
+                error_label["text"] = "unauthorized"
             else:
                 entity_tables[entity].delete(*entity_tables[entity].get_children())
                 if action == 0:
